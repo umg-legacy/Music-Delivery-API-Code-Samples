@@ -17,7 +17,7 @@ const oauth2 = new OAuth2(CLIENT_ID,
   ACCESS_TOKEN_PATH, 
   null);
 
-const getMetadataChangesQuery = (lastTouchedOnDate) => `{ metadataChanges(lastTouchedOn: "${lastTouchedOnDate}") { items { trackId, workId, isDeactivated, touchedOn }, totalNumberOfItems  } }`;
+const getMetadataChangesQuery = (lastTouchedOnDate) => `{ metadataChanges(lastTouchedOn: "${lastTouchedOnDate}", pageIndex: 1, pageSize: 1000) { items { trackId, workId, isDeactivated, touchedOn }, totalNumberOfItems  } }`;
 
 oauth2.getOAuthAccessToken('',
   {'grant_type':'client_credentials', 'scope': SCOPE},
@@ -25,8 +25,6 @@ oauth2.getOAuthAccessToken('',
     if (e) {
       console.log(e);
     } else {
-      console.log('bearer: ', access_token)
-
       const options = {
         hostname: MUSIC_DELIVERY_API_HOST,
         port: 443,
